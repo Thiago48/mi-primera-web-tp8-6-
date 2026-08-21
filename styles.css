@@ -573,18 +573,24 @@ body {
 }
 
 /* ===========================
-   CTA
+   CTA / FORMULARIO DE CONTACTO
    =========================== */
 .cta-section {
   padding: 6rem 0;
-  text-align: center;
-  background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(123,97,255,0.08) 100%),
-              var(--bg);
+  background: radial-gradient(ellipse at bottom, rgba(0, 240, 255, 0.05) 0%, transparent 60%),
+              #070a13;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
 
+.container-narrow {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
 .cta-title {
+  text-align: center;
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   font-weight: 800;
   margin-bottom: 1rem;
@@ -592,9 +598,212 @@ body {
 }
 
 .cta-desc {
+  text-align: center;
   color: var(--text-muted);
-  font-size: 1.1rem;
-  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+  margin-bottom: 3rem;
+}
+
+.cyber-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.cyber-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.cyber-input {
+  background: #02040a;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  transition: all var(--transition);
+  width: 100%;
+}
+
+.cyber-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--glow);
+}
+
+.cyber-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+textarea.cyber-input {
+  resize: vertical;
+}
+
+.cyber-input.invalid {
+  border-color: #ff5f56;
+  box-shadow: 0 0 12px rgba(255, 95, 86, 0.25);
+  animation: shake 0.4s ease;
+}
+
+.error-msg {
+  color: #ff5f56;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  display: none;
+  margin-top: 0.25rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ===========================
+   FUTURISTIC SUCCESS MODAL
+   =========================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 4, 10, 0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1.5rem;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.cyber-modal {
+  background: #02040a;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.25);
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.modal-header {
+  background: #090d16;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 2rem;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+.modal-body h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.modal-text {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-data-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.25rem;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.4rem;
+}
+
+.data-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.data-row span {
+  color: var(--text-muted);
+}
+
+.success-text {
+  color: var(--accent3);
+  text-shadow: 0 0 6px rgba(57,255,20,0.4);
+}
+
+.modal-footer {
+  background: #090d16;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
 /* ===========================

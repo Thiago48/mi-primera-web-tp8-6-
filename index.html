@@ -141,12 +141,68 @@
 
   <!-- ========== CTA / CONTACTO ========== -->
   <section class="cta-section" id="contacto">
-    <div class="container">
-      <h2 class="cta-title">¿Listo para proteger tu empresa?</h2>
-      <p class="cta-desc">Comenzá hoy con 30 días gratis. Sin tarjeta de crédito.</p>
-      <a href="#" class="btn btn-primary btn-large" id="btn-cta-final">Crear cuenta gratuita</a>
+    <div class="container container-narrow">
+      <h2 class="cta-title">Solicitar Acceso a CyberPulse</h2>
+      <p class="cta-desc">Completá el formulario para iniciar tu prueba gratuita de 30 días con monitoreo total.</p>
+      
+      <form class="cyber-form" id="cyber-contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-name" class="cyber-label">NOMBRE DE OPERADOR</label>
+            <input type="text" id="form-name" class="cyber-input" placeholder="Ej: John Doe" required />
+            <span class="error-msg">Requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="form-company" class="cyber-label">ORGANIZACIÓN</label>
+            <input type="text" id="form-company" class="cyber-input" placeholder="Ej: Acme Corp" required />
+            <span class="error-msg">Requerido</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="form-email" class="cyber-label">DIRECCIÓN DE ENLACE (EMAIL)</label>
+          <input type="email" id="form-email" class="cyber-input" placeholder="operador@empresa.com" required />
+          <span class="error-msg">Ingrese un email válido</span>
+        </div>
+        <div class="form-group">
+          <label for="form-msg" class="cyber-label">REQUERIMIENTOS ESPECIALES (OPCIONAL)</label>
+          <textarea id="form-msg" class="cyber-input" rows="3" placeholder="Mensaje cifrado..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-large btn-block" id="btn-submit-form">
+          <span class="btn-text">INICIAR CONEXIÓN SEGURA</span>
+        </button>
+      </form>
     </div>
   </section>
+
+  <!-- ========== FUTURISTIC SUCCESS MODAL ========== -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="cyber-modal">
+      <div class="modal-header">
+        <div class="terminal-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="modal-title">ACCESS_GRANTED.SYS</div>
+      </div>
+      <div class="modal-body">
+        <div class="success-icon">🔑</div>
+        <h3>CONEXIÓN ESTABLECIDA</h3>
+        <p class="modal-text">Tu solicitud de acceso nivel 1 ha sido enviada con éxito. Un agente de seguridad de CyberPulse se pondrá en contacto pronto.</p>
+        
+        <div class="modal-data-box">
+          <div class="data-row"><span>OPERADOR:</span> <strong id="modal-val-name">-</strong></div>
+          <div class="data-row"><span>EMPRESA:</span> <strong id="modal-val-company">-</strong></div>
+          <div class="data-row"><span>CANAL:</span> <strong id="modal-val-email">-</strong></div>
+          <div class="data-row"><span>ESTADO:</span> <strong class="success-text">ACTIVO (PRUEBA)</strong></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btn-close-modal">ENTENDIDO</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ========== FOOTER ========== -->
   <footer class="footer" id="footer">
@@ -282,6 +338,92 @@
       btnAttack.disabled = true;
       badge.textContent = 'SISTEMA INACTIVO';
       badge.className = 'terminal-badge';
+    });
+
+    /* ===== Validación de Formulario y Modal de Éxito ===== */
+    const contactForm = document.getElementById('cyber-contact-form');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+
+    // Elementos del modal para rellenar
+    const modalValName = document.getElementById('modal-val-name');
+    const modalValCompany = document.getElementById('modal-val-company');
+    const modalValEmail = document.getElementById('modal-val-email');
+
+    // Validación interactiva al escribir
+    const inputs = contactForm.querySelectorAll('.cyber-input');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        if (input.classList.contains('invalid')) {
+          input.classList.remove('invalid');
+          const errorSpan = input.nextElementSibling;
+          if (errorSpan && errorSpan.classList.contains('error-msg')) {
+            errorSpan.style.display = 'none';
+          }
+        }
+      });
+    });
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let isValid = true;
+
+      const nameInput = document.getElementById('form-name');
+      const companyInput = document.getElementById('form-company');
+      const emailInput = document.getElementById('form-email');
+
+      // Validar Nombre
+      if (!nameInput.value.trim()) {
+        showError(nameInput, 'Requerido');
+        isValid = false;
+      }
+
+      // Validar Empresa
+      if (!companyInput.value.trim()) {
+        showError(companyInput, 'Requerido');
+        isValid = false;
+      }
+
+      // Validar Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailInput.value.trim()) {
+        showError(emailInput, 'Requerido');
+        isValid = false;
+      } else if (!emailRegex.test(emailInput.value.trim())) {
+        showError(emailInput, 'Dirección de enlace inválida');
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Cargar datos en el modal
+        modalValName.textContent = nameInput.value.trim().toUpperCase();
+        modalValCompany.textContent = companyInput.value.trim().toUpperCase();
+        modalValEmail.textContent = emailInput.value.trim();
+
+        // Mostrar modal
+        modalOverlay.classList.add('show');
+        contactForm.reset();
+      }
+    });
+
+    function showError(input, message) {
+      input.classList.add('invalid');
+      const errorSpan = input.nextElementSibling;
+      if (errorSpan && errorSpan.classList.contains('error-msg')) {
+        errorSpan.textContent = message;
+        errorSpan.style.display = 'block';
+      }
+    }
+
+    btnCloseModal.addEventListener('click', () => {
+      modalOverlay.classList.remove('show');
+    });
+
+    // Cerrar modal al hacer click fuera
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('show');
+      }
     });
 
     /* ===== Navbar scroll effect ===== */
