@@ -81,6 +81,38 @@
     </div>
   </section>
 
+  <!-- ========== SIMULADOR DE AMENAZAS ========== -->
+  <section class="simulador" id="simulador">
+    <div class="container">
+      <h2 class="section-title">Consola CyberShield</h2>
+      <p class="section-desc">Interactúa con nuestro simulador en tiempo real para ver cómo detectamos e interceptamos amenazas en segundos.</p>
+      
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="terminal-title">cybershield_v2.0_monitor.sh</div>
+          <div class="terminal-status" id="terminal-badge">SISTEMA INACTIVO</div>
+        </div>
+        
+        <div class="terminal-body">
+          <div class="terminal-screen" id="terminal-screen">
+            <div class="terminal-line text-muted">[SISTEMA] CyberShield listo. Esperando inicio de escaneo...</div>
+          </div>
+        </div>
+        
+        <div class="terminal-controls">
+          <button class="btn-console" id="btn-scan">Iniciar Escaneo</button>
+          <button class="btn-console alert" id="btn-attack" disabled>Simular DDoS</button>
+          <button class="btn-console success" id="btn-clear">Limpiar Consola</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========== ESTADÍSTICAS ========== -->
   <section class="estadisticas" id="estadisticas">
     <div class="container">
@@ -169,6 +201,88 @@
     }, { threshold: 0.3 });
 
     if (statsSection) observer.observe(statsSection);
+
+    /* ===== Lógica del Simulador de Amenazas ===== */
+    const screen = document.getElementById('terminal-screen');
+    const badge = document.getElementById('terminal-badge');
+    const btnScan = document.getElementById('btn-scan');
+    const btnAttack = document.getElementById('btn-attack');
+    const btnClear = document.getElementById('btn-clear');
+
+    const printLine = (text, type = 'muted') => {
+      const line = document.createElement('div');
+      line.className = `terminal-line ${type}`;
+      line.textContent = text;
+      screen.appendChild(line);
+      screen.scrollTop = screen.scrollHeight;
+    };
+
+    btnScan.addEventListener('click', () => {
+      btnScan.disabled = true;
+      btnClear.disabled = true;
+      badge.textContent = 'ESCANEO ACTIVO';
+      badge.className = 'terminal-badge active';
+      printLine('[INFO] Iniciando escaneo completo del sistema...', 'info');
+
+      const phases = [
+        { text: '[INFO] Analizando puertos abiertos...', delay: 800, type: 'muted' },
+        { text: '[INFO] Verificando integridad de bases de datos...', delay: 1600, type: 'muted' },
+        { text: '[INFO] Monitoreando tráfico IP en tiempo real...', delay: 2400, type: 'muted' },
+        { text: '[OK] Escaneo finalizado. 0 anomalías encontradas.', delay: 3200, type: 'success' },
+        { text: '[SISTEMA] Estado: PROTEGIDO. Listo para simulación de ataque.', delay: 4000, type: 'success' }
+      ];
+
+      phases.forEach(phase => {
+        setTimeout(() => {
+          printLine(phase.text, phase.type);
+          if (phase.text.includes('Listo para simulación')) {
+            btnScan.disabled = false;
+            btnAttack.disabled = false;
+            btnClear.disabled = false;
+            badge.textContent = 'SISTEMA PROTEGIDO';
+            badge.className = 'terminal-badge active';
+          }
+        }, phase.delay);
+      });
+    });
+
+    btnAttack.addEventListener('click', () => {
+      btnScan.disabled = true;
+      btnAttack.disabled = true;
+      btnClear.disabled = true;
+      badge.textContent = 'ALERTA DE INTRUSIÓN';
+      badge.className = 'terminal-badge danger';
+
+      printLine('[⚠️ ALERTA] Detección de anomalía: Pico masivo de tráfico entrante...', 'alert');
+
+      const attackPhases = [
+        { text: '[⚠️ CRÍTICO] Ataque DDoS en progreso: 45,000 req/sec en puerto 443.', delay: 1000, type: 'alert' },
+        { text: '[SISTEMA] Activando escudo inteligente CyberShield...', delay: 2200, type: 'info' },
+        { text: '[🛡️ PROCESO] Bloqueando IPs atacantes y mitigando paquetes corruptos...', delay: 3400, type: 'info' },
+        { text: '[OK] Carga mitrada. Tráfico normalizado a 120 req/sec.', delay: 4600, type: 'success' },
+        { text: '[SISTEMA] Ataque neutralizado. Reporte de incidente guardado.', delay: 5600, type: 'success' }
+      ];
+
+      attackPhases.forEach(phase => {
+        setTimeout(() => {
+          printLine(phase.text, phase.type);
+          if (phase.text.includes('Reporte de incidente guardado')) {
+            btnScan.disabled = false;
+            btnAttack.disabled = false;
+            btnClear.disabled = false;
+            badge.textContent = 'SISTEMA PROTEGIDO';
+            badge.className = 'terminal-badge active';
+          }
+        }, phase.delay);
+      });
+    });
+
+    btnClear.addEventListener('click', () => {
+      screen.innerHTML = '<div class="terminal-line text-muted">[SISTEMA] Consola limpia. Esperando órdenes...</div>';
+      btnAttack.disabled = true;
+      badge.textContent = 'SISTEMA INACTIVO';
+      badge.className = 'terminal-badge';
+    });
 
     /* ===== Navbar scroll effect ===== */
     const navbar = document.getElementById('navbar');
