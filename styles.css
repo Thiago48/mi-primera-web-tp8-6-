@@ -51,13 +51,17 @@ body::after {
   z-index: 9999;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  font-size: 115%; /* Aumenta el tamaño base proporcional de 16px a 18.4px */
+}
 
 body {
   font-family: var(--font-main);
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  font-size: 1.05rem; /* Aumenta el tamaño del texto general */
 }
 
 .container {
