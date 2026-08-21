@@ -23,6 +23,18 @@
   --transition: 0.3s ease;
 }
 
+[data-theme="retro"] {
+  --bg:        #020602;
+  --bg-card:   #051105;
+  --accent:    #39ff14;
+  --accent2:   #0f5107;
+  --accent3:   #00f0ff;
+  --text:      #d1fad1;
+  --text-muted:#6c8b6c;
+  --border:    rgba(57, 255, 20, 0.18);
+  --glow:      rgba(57, 255, 20, 0.35);
+}
+
 /* Scanline overlay */
 body::after {
   content: '';
@@ -179,6 +191,36 @@ body {
 }
 
 .nav-links a:hover { color: var(--accent); }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.btn-theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition);
+  letter-spacing: 0.05em;
+}
+
+.btn-theme-toggle:hover {
+  background: rgba(0, 240, 255, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--glow);
+}
+
+[data-theme="retro"] .btn-theme-toggle:hover {
+  background: rgba(57, 255, 20, 0.08);
+}
 
 /* ===========================
    HERO

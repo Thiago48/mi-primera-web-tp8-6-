@@ -24,7 +24,10 @@
         <li><a href="#estadisticas">Estadísticas</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
-      <a href="#contacto" class="btn btn-nav" id="btn-nav-cta">Comenzar</a>
+      <div class="nav-actions">
+        <button class="btn-theme-toggle" id="theme-toggle" title="Cambiar Tema">📟 MODO RETRO</button>
+        <a href="#contacto" class="btn btn-nav" id="btn-nav-cta">Comenzar</a>
+      </div>
     </div>
   </nav>
 
@@ -426,12 +429,36 @@
       }
     });
 
+    /* ===== Alternar Temas (Cyberpunk vs Retro Terminal) ===== */
+    const themeToggle = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'retro') {
+      document.documentElement.setAttribute('data-theme', 'retro');
+      themeToggle.textContent = '🧬 MODO CYBER';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme');
+      if (activeTheme === 'retro') {
+        document.documentElement.removeAttribute('data-theme');
+        themeToggle.textContent = '📟 MODO RETRO';
+        localStorage.setItem('theme', 'cyber');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'retro');
+        themeToggle.textContent = '🧬 MODO CYBER';
+        localStorage.setItem('theme', 'retro');
+      }
+    });
+
     /* ===== Navbar scroll effect ===== */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
+      const isRetro = document.documentElement.getAttribute('data-theme') === 'retro';
+      const bgColor = isRetro ? '5, 17, 5' : '5, 5, 9';
       navbar.style.background = window.scrollY > 50
-        ? 'rgba(5, 5, 9, 0.95)'
-        : 'rgba(5, 5, 9, 0.7)';
+        ? `rgba(${bgColor}, 0.95)`
+        : `rgba(${bgColor}, 0.7)`;
     });
   </script>
 </body>
