@@ -124,5 +124,59 @@
     </div>
   </footer>
 
+  <script>
+    /* ===== Contador animado para estadísticas ===== */
+    const counters = document.querySelectorAll('.stat-number');
+    const statsSection = document.getElementById('estadisticas');
+
+    const animateCounters = () => {
+      counters.forEach(counter => {
+        const target = counter.textContent;
+        counter.setAttribute('data-target', target);
+        counter.textContent = '0';
+
+        let start = 0;
+        const duration = 1800;
+        const step = (timestamp) => {
+          if (!start) start = timestamp;
+          const progress = Math.min((timestamp - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          // Restore formatted value at 100%
+          if (progress >= 1) {
+            counter.textContent = target;
+          } else {
+            // Extract numeric part
+            const numMatch = target.match(/[\d,\.]+/);
+            if (numMatch) {
+              const num = parseFloat(numMatch[0].replace(',', '.'));
+              const current = (num * eased).toFixed(num % 1 !== 0 ? 1 : 0);
+              counter.textContent = target.replace(numMatch[0], current.replace('.', ','));
+            }
+          }
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    if (statsSection) observer.observe(statsSection);
+
+    /* ===== Navbar scroll effect ===== */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.background = window.scrollY > 50
+        ? 'rgba(5, 5, 9, 0.95)'
+        : 'rgba(5, 5, 9, 0.7)';
+    });
+  </script>
 </body>
 </html>
