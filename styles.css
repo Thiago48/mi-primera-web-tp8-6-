@@ -8,17 +8,35 @@
 }
 
 :root {
-  --bg:        #0a0d14;
-  --bg-card:   #111520;
-  --accent:    #00e5ff;
-  --accent2:   #7b61ff;
+  --bg:        #050509;
+  --bg-card:   #0c0f1a;
+  --accent:    #00f0ff;
+  --accent2:   #8b5cf6;
+  --accent3:   #39ff14;
   --text:      #e2e8f0;
   --text-muted:#8892a4;
-  --border:    rgba(0, 229, 255, 0.15);
+  --border:    rgba(0, 240, 255, 0.18);
+  --glow:      rgba(0, 240, 255, 0.35);
   --font-main: 'Outfit', sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
   --radius:    12px;
   --transition: 0.3s ease;
+}
+
+/* Scanline overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.03) 0px,
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
 }
 
 html { scroll-behavior: smooth; }
