@@ -878,3 +878,44 @@ textarea.cyber-input {
   .hero-actions { flex-direction: column; align-items: center; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ========== NOSOTROS ========== */
+
+.nosotros {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, var(--bg) 0%, #0d1119 100%);
+}
+
+.nosotros-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  margin-top: 3rem;
+}
+
+.nosotros-info {
+  max-width: 600px;
+}
+
+.nosotros-info h3 {
+  color: var(--accent);
+  font-size: 1.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.nosotros-info p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive para Nosotros */
+@media (max-width: 768px) {
+  .nosotros-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+}
